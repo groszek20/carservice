@@ -4,7 +4,9 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import pl.carservice.services.IssuesService;
@@ -24,18 +26,24 @@ public class IssuesController {
 	@RequestMapping("/**")
 	@ResponseBody
 	public String test(Locale locale) {
-		return locale.toString();
-	}
-
-	@RequestMapping("/issue/**")
-	@ResponseBody
-	public String testIssue() {
-		return issuesService.getIssue();
+		return "Mapowanie /**";
 	}
 	
-	@RequestMapping("/issue/*/test")
+	@RequestMapping(path = "/issue/{idIssue}/{test}", method = RequestMethod.GET)
+	@ResponseBody
+	public String testIssue(@PathVariable("idIssue") String idIssue, @PathVariable("test") String test) {
+		return "mapowanie GET, zmienna = " + idIssue + test;
+	}
+	
+	@RequestMapping(path = "/issue/**", method = RequestMethod.GET, headers="Myheader=x")
+	@ResponseBody
+	public String testIssue3() {
+		return "mapowanie GET Myheader=x";
+	}
+	
+	@RequestMapping(path = "/issue/**", method = RequestMethod.POST)
 	@ResponseBody
 	public String testIssue2() {
-		return "Mapowanie /issue/*/test";
+		return "mapowanie POST";
 	}
 }
