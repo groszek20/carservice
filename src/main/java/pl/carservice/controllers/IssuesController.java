@@ -1,6 +1,8 @@
 package pl.carservice.controllers;
 
 import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,10 +31,22 @@ public class IssuesController {
 		return "Mapowanie /**";
 	}
 	
-	@RequestMapping(path = "/issue/{idIssue}/{test}", method = RequestMethod.GET)
+//	@RequestMapping(path = "/issue/{idIssue}/{test}", method = RequestMethod.GET)
+//	@ResponseBody
+//	public String testIssue(@PathVariable("idIssue") String idIssue, @PathVariable("test") String test) {
+//		return "mapowanie GET, zmienna = " + idIssue + test;
+//	}
+	
+//	@RequestMapping(path = {"/issue/{idIssue}/{test}","/issue/{idIssue}/"}, method = RequestMethod.GET)
+//	@ResponseBody
+//	public String testIssue(@PathVariable Map<String, String> args) {
+//		return "mapowanie GET, zmienna = " + args;
+//	}
+
+	@RequestMapping(path = {"/issue/{idIssue}/{test}","/issue/{idIssue}/"}, method = RequestMethod.GET)
 	@ResponseBody
-	public String testIssue(@PathVariable("idIssue") String idIssue, @PathVariable("test") String test) {
-		return "mapowanie GET, zmienna = " + idIssue + test;
+	public String testIssue(@PathVariable("idIssue") String idIssue, @PathVariable("test") Optional<String> optional) {
+		return "mapowanie GET, zmienna = " + idIssue + optional.orElse("pusto");
 	}
 	
 	@RequestMapping(path = "/issue/**", method = RequestMethod.GET, headers="Myheader=x")
