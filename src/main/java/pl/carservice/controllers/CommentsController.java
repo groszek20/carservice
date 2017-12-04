@@ -2,9 +2,14 @@ package pl.carservice.controllers;
 
 import java.util.Locale;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,8 +36,19 @@ public class CommentsController {
 	
 	@RequestMapping("/")
 	@ResponseBody
-	public String testParam(@RequestParam(name="pageNumber", required=false) String pageNumber) {
-		return "wartosc " + pageNumber;
+	public String testParam(@RequestParam(name="pageNumber", required=false) String pageNumber, 
+			@RequestParam(name="recordCount", required=false) String recordCount,
+			@CookieValue(name="recordCount", required=false, defaultValue="10") String recordCountCookie,
+			@RequestHeader("User-Agent") String userAgent,
+			HttpServletResponse response) {	
+		String recCount = null;
+		if(recordCount!=null) {
+			response.addCookie(new Cookie("recordCount", recordCount));
+			recCount = "Ustawiam recordCount na " + recordCount;
+		}else {
+			recCount = "Odczytana z ciasteczka " + recordCountCookie;
+		}
+		return recCount;
 	}
 	
 	
