@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import pl.carservice.services.IssuesService;
 
 @Controller
-@RequestMapping("/comments/**")
+@RequestMapping("/comment")
 public class CommentsController {
 	
 	private IssuesService issuesService;
@@ -32,11 +33,11 @@ public class CommentsController {
 		this.issuesService = issuesService;
 	}
 	
-	@RequestMapping("/{name:[a-z]+}{idComments:\\d+}")
-	@ResponseBody
-	public String test(@PathVariable("name") String name, @PathVariable("idComments") String id) {
-		return "comment " + "name:" + name + " id:" + id;
-	}
+//	@RequestMapping("/{name:[a-z]+}{idComment:\\d+}")
+//	@ResponseBody
+//	public String test(@PathVariable("name") String name, @PathVariable("idComment") String id) {
+//		return "comment " + "name:" + name + " id:" + id;
+//	}
 	
 	@RequestMapping("/")
 	@ResponseBody
@@ -61,5 +62,11 @@ public class CommentsController {
 	@ResponseBody
 	public String addComment(@RequestBody MultiValueMap<String, String> body) {
 		return body.toString();
+	}
+	
+	@RequestMapping("/{idComment}")
+	public String getComment(@PathVariable("idComment") String idComment, Model model) {
+		model.addAttribute("idComment", idComment);
+		return "comment";
 	}
 }
