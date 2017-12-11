@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,23 +26,12 @@ public class IssuesController {
 		this.issuesService = issuesService;
 	}
 
-	@RequestMapping("/**")
-	@ResponseBody
-	public String test(Locale locale) {
-		return "Mapowanie /**";
+	@RequestMapping("/")
+	public String test(Model model) {
+		model.addAttribute("issues", issuesService.listIssues());
+		return "issuesList";
 	}
 	
-//	@RequestMapping(path = "/issue/{idIssue}/{test}", method = RequestMethod.GET)
-//	@ResponseBody
-//	public String testIssue(@PathVariable("idIssue") String idIssue, @PathVariable("test") String test) {
-//		return "mapowanie GET, zmienna = " + idIssue + test;
-//	}
-	
-//	@RequestMapping(path = {"/issue/{idIssue}/{test}","/issue/{idIssue}/"}, method = RequestMethod.GET)
-//	@ResponseBody
-//	public String testIssue(@PathVariable Map<String, String> args) {
-//		return "mapowanie GET, zmienna = " + args;
-//	}
 
 	@RequestMapping(path = {"/issue/{idIssue}/{test}","/issue/{idIssue}/"}, method = RequestMethod.GET)
 	@ResponseBody
@@ -49,15 +39,4 @@ public class IssuesController {
 		return "mapowanie GET, zmienna = " + idIssue + optional.orElse("pusto");
 	}
 	
-	@RequestMapping(path = "/issue/**", method = RequestMethod.GET, headers="Myheader=x")
-	@ResponseBody
-	public String testIssue3() {
-		return "mapowanie GET Myheader=x";
-	}
-	
-	@RequestMapping(path = "/issue/**", method = RequestMethod.POST)
-	@ResponseBody
-	public String testIssue2() {
-		return "mapowanie POST";
-	}
 }

@@ -9,23 +9,18 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import pl.carservice.services.IssuesService;
-import pl.carservice.services.WebIssuesService;
 
 @Configuration
 @ComponentScan("pl.carservice.controllers")
 @EnableWebMvc
 public class CarServiceWebConfiguration {
-
-	//@Bean
-	public IssuesService issuesService() {
-		return new WebIssuesService();
-	}
 	
 	@Bean
 	public ViewResolver freeMarkerViewResolver() {
 		FreeMarkerViewResolver freeMarkerViewResolver = new FreeMarkerViewResolver();
 		freeMarkerViewResolver.setPrefix("");
 		freeMarkerViewResolver.setSuffix(".ftl");
+		freeMarkerViewResolver.setContentType("text/html;charset=UTF8");
 		return freeMarkerViewResolver;
 	}
 	
