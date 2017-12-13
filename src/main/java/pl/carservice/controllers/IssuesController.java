@@ -10,8 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import pl.carservice.dto.RecordRange;
 import pl.carservice.services.IssuesService;
 
 @Controller
@@ -27,8 +29,8 @@ public class IssuesController {
 	}
 
 	@RequestMapping("/")
-	public String test(Model model) {
-		model.addAttribute("issues", issuesService.listIssues());
+	public String test(@RequestParam("range") RecordRange range, Model model) {
+		model.addAttribute("issues", issuesService.listIssues().subList(range.getFrom(), range.getTo()));
 		return "issuesList";
 	}
 	
