@@ -30,7 +30,7 @@
 		<link>
 			<name>src/main/resources/WEB-INF/car.jpg</name>
 			<type>1</type>
-			<location>C:/Users/Adam/EclipseProjects/workspace-carservice/carservice/src/main/resources/WEB-INF/car.jpg</location>
+			<location>C:/temp/car.jpg</location>
 		</link>
 	</linkedResources>
 </projectDescription>

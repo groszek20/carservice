@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,7 +26,7 @@ public class FileController {
 	@RequestMapping("/download")
 	@ResponseBody
 	public void downloadFile(HttpServletResponse response) throws IOException {
-		File file = new File (getClass().getClassLoader().getResource("/car.jpg").getFile());
+		File file = new File("C://temp//car.jpg");
 		InputStream inputStream = new FileInputStream(file);
 		response.setContentType("image/jpeg");
 		response.setContentLengthLong(file.length());
@@ -42,5 +43,11 @@ public class FileController {
 	@ResponseBody
 	public String uploadFile(@RequestParam("file") MultipartFile file) {
 		return "uploadfile" + file.getSize();
+	}
+	
+	@ExceptionHandler(Exception.class)
+	@ResponseBody
+	public String handleError() {
+		return "Wystapil blad";
 	}
 }
